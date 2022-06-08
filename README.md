@@ -1,11 +1,12 @@
 # currency_exchange
 
-**Building a simple Currency Exchange Apps using the BLoC State Management including: Cubit, Managing Route & fetch Current Weather information from [Currency Convert API](https://www.currencyconverterapi.com/).**
+**Building a simple Currency Exchange Apps using the BLoC State Management including: Cubit, Managing Route & fetch Current Weather information from [ExchangeRate-API](https://www.exchangerate-api.com/).**
 
-**For testing proposes using API, check this: [Free Currency Convert API](https://free.currencyconverterapi.com/). I am currently using the Free Versions API.**
+**For testing proposes, I am currently using the Free Versions API.**
 
-![logo](https://user-images.githubusercontent.com/70565731/170439908-76388047-5355-4224-b67d-a1828e96988a.png)
+![ExchangeRate-API](https://user-images.githubusercontent.com/70565731/172587555-a34553c0-982d-4792-b495-400ea85485a1.png)
 
+**For more information, check out 👉 https://www.exchangerate-api.com**
 
 ## **📕 Usage**
 ### Going through it, firstly, clone this repository by:
