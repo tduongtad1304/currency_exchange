@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class CurrencyModel extends Equatable {
-  final String baseCode;
-  final String targetCode;
-  final dynamic conversionRate;
-  final dynamic lastUpdate;
+  final String? baseCode;
+  final String? targetCode;
+  final double? conversionRate;
+  final String? lastUpdate;
   const CurrencyModel({
     required this.baseCode,
     required this.targetCode,
@@ -16,7 +16,7 @@ class CurrencyModel extends Equatable {
     String? baseCode,
     String? targetCode,
     double? conversionRate,
-    dynamic lastUpdate,
+    String? lastUpdate,
   }) {
     return CurrencyModel(
       baseCode: baseCode ?? this.baseCode,
@@ -30,18 +30,19 @@ class CurrencyModel extends Equatable {
       baseCode: '', targetCode: '', conversionRate: 0.0, lastUpdate: '');
 
   factory CurrencyModel.fromJson(Map<String, dynamic> json) => CurrencyModel(
-        baseCode: json['base_code'] as String,
-        targetCode: json['target_code'] as String,
-        conversionRate: json['conversion_rate'],
-        lastUpdate: json['time_last_update_utc'] as String,
+        baseCode: json['base_code'] ?? '',
+        targetCode: json['target_code'] ?? '',
+        conversionRate: json['conversion_rate'] ?? 0.0,
+        lastUpdate: json['time_last_update_utc'] ?? '',
       );
 
   @override
   List<Object> get props {
     return [
-      baseCode,
-      targetCode,
-      conversionRate,
+      baseCode ?? '',
+      targetCode ?? '',
+      conversionRate ?? 0.0,
+      lastUpdate ?? '',
     ];
   }
 

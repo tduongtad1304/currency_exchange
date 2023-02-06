@@ -10,8 +10,8 @@ enum FetchStatus {
 class CurrencyState extends Equatable {
   final FetchStatus fetchStatus;
   final CurrencyModel currencyModel;
-  final List<String>? codes;
-  final List<String>? countryName;
+  final List<String> codes;
+  final List<String> countryName;
   final CustomError error;
   const CurrencyState({
     required this.fetchStatus,
@@ -21,6 +21,14 @@ class CurrencyState extends Equatable {
     required this.error,
   });
 
+  Map<String, String> get fullCodeAndName => Map.fromEntries(
+        codes.asMap().entries.map(
+              (e) => MapEntry(
+                e.value,
+                countryName[e.key],
+              ),
+            ),
+      );
   @override
   List<Object?> get props =>
       [fetchStatus, currencyModel, codes, countryName, error];
@@ -30,6 +38,7 @@ class CurrencyState extends Equatable {
     CurrencyModel? currencyModel,
     List<String>? codes,
     List<String>? countryName,
+    Map<String, String>? fullCodeAndName,
     CustomError? error,
   }) {
     return CurrencyState(
@@ -51,8 +60,4 @@ class CurrencyState extends Equatable {
         countryName: const [],
         error: const CustomError(),
       );
-
-  @override
-  String toString() =>
-      'CurrencyState(fetchStatus: $fetchStatus, currencyModel: $currencyModel, error: $error)';
 }

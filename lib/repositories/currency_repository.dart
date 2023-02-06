@@ -13,9 +13,10 @@ class CurrencyRepository {
     required this.currencyApiServices,
   });
 
-  Future<List<String>> fetchCodes(int? codeOrName) async {
+  Future<List<String>> getCodesAndCountryName(int? codeOrName) async {
     try {
-      final codes = await currencyApiServices.getCodes(codeOrName);
+      final codes =
+          await currencyApiServices.getCodesAndCountryName(codeOrName);
       if (kDebugMode) {
         log('exchange rate information: $codes');
       }
@@ -28,11 +29,11 @@ class CurrencyRepository {
     }
   }
 
-  Future<CurrencyModel> fetchCurrency(
-      String currency1, String currency2) async {
+  Future<CurrencyModel> exchangeCurrency(
+      String firstCurrencyUnit, String secondCurrencyUnit) async {
     try {
-      final currency =
-          await currencyApiServices.getCurrency(currency1, currency2);
+      final currency = await currencyApiServices.exchangeCurrency(
+          firstCurrencyUnit, secondCurrencyUnit);
       if (kDebugMode) {
         log('exchange rate information: $currency');
       }

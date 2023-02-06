@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -13,44 +14,42 @@ class CurrencyCubit extends Cubit<CurrencyState> {
   CurrencyCubit({required this.currencyRepository})
       : super(CurrencyState.initial());
 
-  Future<List<String>> fetchCodes(int? codeOrName) async {
+  Future<List<String>> getCodesAndCountryName(int? codeOrName) async {
     try {
-      final codes = await currencyRepository.fetchCodes(codeOrName);
+      final codes = await currencyRepository.getCodesAndCountryName(codeOrName);
       if (codeOrName == 0) {
         emit(state.copyWith(
           fetchStatus: FetchStatus.loaded,
           codes: codes,
         ));
-      }
-      if (codeOrName == 1) {
+      } else if (codeOrName == 1) {
         emit(state.copyWith(
           fetchStatus: FetchStatus.loaded,
           countryName: codes,
         ));
       }
-
+      log('List currency: ${state.fullCodeAndName}');
       return codes;
     } on CustomError catch (e) {
       emit(state.copyWith(
         fetchStatus: FetchStatus.error,
         error: e,
       ));
-      rethrow;
     } catch (e) {
       emit(state.copyWith(
         fetchStatus: FetchStatus.error,
         error: CustomError(errMsg: e.toString()),
       ));
-      rethrow;
     }
+    return [];
   }
 
-  Future<CurrencyModel> fetchCurrency(
-      String currency1, String currency2) async {
+  Future<CurrencyModel> exchangeCurrency(
+      String firstCurrencyUnit, String secondCurrencyUnit) async {
     emit(state.copyWith(fetchStatus: FetchStatus.loading));
     try {
       await currencyRepository
-          .fetchCurrency(currency1, currency2)
+          .exchangeCurrency(firstCurrencyUnit, secondCurrencyUnit)
           .then((currency) {
         emit(state.copyWith(
           fetchStatus: FetchStatus.loaded,

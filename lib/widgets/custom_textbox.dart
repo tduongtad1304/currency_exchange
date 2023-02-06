@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomTextBox extends StatelessWidget {
   final Widget child;
-  final VoidCallback? onPress;
+  final VoidCallback? onPressed;
   final String? value;
   const CustomTextBox(
       {Key? key,
       required this.child,
-      required this.onPress,
+      required this.onPressed,
       required this.value})
       : super(key: key);
   @override
@@ -19,11 +19,18 @@ class CustomTextBox extends StatelessWidget {
           builder: (_) {
             return Center(
               child: AlertDialog(
-                title: const Text('Supported Currencies'),
-                content: SizedBox(height: 70, width: 100, child: child),
+                titlePadding:
+                    const EdgeInsets.only(top: 20, left: 30, right: 20),
+                title: const Text(
+                  'Supported Currencies',
+                  style: TextStyle(fontSize: 18),
+                ),
+                content: SizedBox(height: 80, width: 100, child: child),
+                contentPadding:
+                    const EdgeInsets.only(top: 20, left: 30, right: 20),
                 actions: [
                   TextButton(
-                    onPressed: onPress,
+                    onPressed: onPressed,
                     child: const Text('OK'),
                   ),
                 ],

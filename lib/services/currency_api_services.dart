@@ -9,7 +9,7 @@ import '../exceptions/currency_exception.dart';
 import 'http_error_handler.dart';
 
 class CurrencyApiServices {
-  Future<List<String>> getCodes(int? codeOrName) async {
+  Future<List<String>> getCodesAndCountryName(int? codeOrName) async {
     final uri = Uri.parse('https://v6.exchangerate-api.com/v6/$kApi/codes');
     int i;
     final List<String> result = [];
@@ -59,10 +59,10 @@ class CurrencyApiServices {
     return result;
   }
 
-  Future<CurrencyModel> getCurrency(
-      String firstCurrency, String secondCurrency) async {
+  Future<CurrencyModel> exchangeCurrency(
+      String firstCurrencyUnit, String secondCurrencyUnit) async {
     final uri = Uri.parse(
-        'https://v6.exchangerate-api.com/v6/$kApi/pair/$firstCurrency/$secondCurrency');
+        'https://v6.exchangerate-api.com/v6/$kApi/pair/$firstCurrencyUnit/$secondCurrencyUnit');
     try {
       final response = await http.get(uri);
       if (response.statusCode != 200) {
@@ -71,7 +71,7 @@ class CurrencyApiServices {
         log(response.body);
         late final responseBody = json.decode(response.body);
 
-        if (responseBody.isEmpty) {
+        if (responseBody == null) {
           throw CurrencyException('Cannot get the currency exchange rate');
         }
 
