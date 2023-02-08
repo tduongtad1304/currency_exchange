@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:currency_exchange/model/currency_model.dart';
-import 'package:flutter/foundation.dart';
 
 import '../exceptions/currency_exception.dart';
 import '../model/custom_error.dart';
@@ -13,13 +10,13 @@ class CurrencyRepository {
     required this.currencyApiServices,
   });
 
-  Future<List<String>> getCodesAndCountryName(int? codeOrName) async {
+  Future<List<String>> getCodesAndCountryName(int codeOrName) async {
     try {
       final codes =
           await currencyApiServices.getCodesAndCountryName(codeOrName);
-      if (kDebugMode) {
-        log('exchange rate information: $codes');
-      }
+      // if (kDebugMode) {
+      //   log('exchange rate information: $codes');
+      // }
 
       return codes;
     } on CurrencyException catch (e) {
@@ -34,9 +31,9 @@ class CurrencyRepository {
     try {
       final currency = await currencyApiServices.exchangeCurrency(
           firstCurrencyUnit, secondCurrencyUnit);
-      if (kDebugMode) {
-        log('exchange rate information: $currency');
-      }
+      // if (kDebugMode) {
+      //   log('exchange rate information: $currency');
+      // }
 
       return currency;
     } on CurrencyException catch (e) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:currency_exchange/model/currency_model.dart';
@@ -14,31 +13,30 @@ class CurrencyCubit extends Cubit<CurrencyState> {
   CurrencyCubit({required this.currencyRepository})
       : super(CurrencyState.initial());
 
-  Future<List<String>> getCodesAndCountryName(int? codeOrName) async {
+  Future<List<String>> getCodesAndCountryName(int codeOrName) async {
     try {
-      final codes = await currencyRepository.getCodesAndCountryName(codeOrName);
+      final codesOrCountryName =
+          await currencyRepository.getCodesAndCountryName(codeOrName);
+
       if (codeOrName == 0) {
         emit(state.copyWith(
           fetchStatus: FetchStatus.loaded,
-          codes: codes,
+          codes: codesOrCountryName,
         ));
       } else if (codeOrName == 1) {
-        emit(state.copyWith(
-          fetchStatus: FetchStatus.loaded,
-          countryName: codes,
-        ));
+        emit(
+          state.copyWith(
+            fetchStatus: FetchStatus.loaded,
+            countryName: codesOrCountryName,
+          ),
+        );
       }
-      log('List currency: ${state.fullCodeAndName}');
-      return codes;
-    } on CustomError catch (e) {
+      // log('List currency: ${state.fullCodeAndName}');
+      return codesOrCountryName;
+    } on CustomError {
       emit(state.copyWith(
         fetchStatus: FetchStatus.error,
-        error: e,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        fetchStatus: FetchStatus.error,
-        error: CustomError(errMsg: e.toString()),
+        error: const CustomError(errMsg: 'Invalid fetching information.'),
       ));
     }
     return [];
@@ -62,7 +60,7 @@ class CurrencyCubit extends Cubit<CurrencyState> {
         error: e,
       ));
     }
-    log(state.toString());
+    // log(state.toString());
     return state.currencyModel;
   }
 }

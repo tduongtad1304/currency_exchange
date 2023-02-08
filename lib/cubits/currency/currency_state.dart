@@ -25,13 +25,13 @@ class CurrencyState extends Equatable {
         codes.asMap().entries.map(
               (e) => MapEntry(
                 e.value,
-                countryName[e.key],
+                countryName.length > e.key ? countryName[e.key] : '',
               ),
             ),
       );
   @override
   List<Object?> get props =>
-      [fetchStatus, currencyModel, codes, countryName, error];
+      [fetchStatus, currencyModel, codes, countryName, fullCodeAndName, error];
 
   CurrencyState copyWith({
     FetchStatus? fetchStatus,

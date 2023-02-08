@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:currency_exchange/constants/constants.dart';
 import 'package:currency_exchange/model/currency_model.dart';
@@ -9,7 +8,7 @@ import '../exceptions/currency_exception.dart';
 import 'http_error_handler.dart';
 
 class CurrencyApiServices {
-  Future<List<String>> getCodesAndCountryName(int? codeOrName) async {
+  Future<List<String>> getCodesAndCountryName(int codeOrName) async {
     final uri = Uri.parse('https://v6.exchangerate-api.com/v6/$kApi/codes');
     int i;
     final List<String> result = [];
@@ -20,12 +19,14 @@ class CurrencyApiServices {
         if (response.statusCode != 200) {
           throw Exception(httpErrorHandler(response));
         } else {
-          late final responseBody = json.decode(response.body);
+          late final responseBody =
+              json.decode(response.body) as Map<String, dynamic>;
 
           if (responseBody.isEmpty) {
             throw CurrencyException('Cannot get the currency exchange rate');
           } else {
-            for (i = 0; i < responseBody['supported_codes'].length; i++) {
+            final List supportedCodes = responseBody['supported_codes'];
+            for (i = 0; i < supportedCodes.length; i++) {
               result.add(responseBody['supported_codes'][i][0]);
             }
           }
@@ -42,12 +43,14 @@ class CurrencyApiServices {
         if (response.statusCode != 200) {
           throw Exception(httpErrorHandler(response));
         } else {
-          late final responseBody = json.decode(response.body);
+          late final responseBody =
+              json.decode(response.body) as Map<String, dynamic>;
 
           if (responseBody.isEmpty) {
             throw CurrencyException('Cannot get the currency exchange rate');
           } else {
-            for (i = 0; i < responseBody['supported_codes'].length; i++) {
+            final List supportedCodes = responseBody['supported_codes'];
+            for (i = 0; i < supportedCodes.length; i++) {
               result.add(responseBody['supported_codes'][i][1]);
             }
           }
@@ -68,7 +71,7 @@ class CurrencyApiServices {
       if (response.statusCode != 200) {
         throw Exception(httpErrorHandler(response));
       } else {
-        log(response.body);
+        // log(response.body);
         late final responseBody = json.decode(response.body);
 
         if (responseBody == null) {

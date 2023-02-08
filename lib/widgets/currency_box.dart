@@ -1,15 +1,18 @@
+import 'package:currency_exchange/widgets/search_choices_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextBox extends StatelessWidget {
-  final Widget child;
-  final VoidCallback? onPressed;
-  final String? value;
-  const CustomTextBox(
-      {Key? key,
-      required this.child,
-      required this.onPressed,
-      required this.value})
-      : super(key: key);
+class CurrencyBox extends StatelessWidget {
+  final VoidCallback? onConfirmed;
+  final String value;
+  final Map<String, dynamic> items;
+  final void Function(String?) onChanged;
+  const CurrencyBox({
+    Key? key,
+    required this.onConfirmed,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,12 +28,20 @@ class CustomTextBox extends StatelessWidget {
                   'Supported Currencies',
                   style: TextStyle(fontSize: 18),
                 ),
-                content: SizedBox(height: 80, width: 100, child: child),
+                content: SizedBox(
+                  height: 80,
+                  width: 100,
+                  child: SearchChoicesDialog(
+                    items: items,
+                    values: value,
+                    onChanged: onChanged,
+                  ),
+                ),
                 contentPadding:
                     const EdgeInsets.only(top: 20, left: 30, right: 20),
                 actions: [
                   TextButton(
-                    onPressed: onPressed,
+                    onPressed: onConfirmed,
                     child: const Text('OK'),
                   ),
                 ],
@@ -49,7 +60,7 @@ class CustomTextBox extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            value!,
+            value.toString(),
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),

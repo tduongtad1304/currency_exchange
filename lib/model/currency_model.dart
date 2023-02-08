@@ -33,7 +33,7 @@ class CurrencyModel extends Equatable {
         baseCode: json['base_code'] ?? '',
         targetCode: json['target_code'] ?? '',
         conversionRate: json['conversion_rate'] ?? 0.0,
-        lastUpdate: json['time_last_update_utc'] ?? '',
+        lastUpdate: json['time_last_update_utc'] ?? 'N/A',
       );
 
   @override
